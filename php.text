@@ -1,0 +1,1668 @@
+1. Chương trình đầu tiên 
+<?php
+  echo "Hello, world!\n";
+?>
+
+Tạo biến môi trường variable thêm vào path rồi mới dùng đc : php helloworld.php
+
+echo() không chỉ hiện thị string, nó có thể hiện thị rất nhiều loại dữ liệu, như số, biểu thức, Lệnh khác giống echo là print()
+echo  : Khi dùng ' ... ' thì chỉ xuất chuỗi nguyên còn khi dùng " " thì xuất được cả giá trị biến VD: 
+$a = 15;
+echo '$a' ; // '$a'
+echo "$a" ; // 15
+
+<?php
+    echo 'Hello, World!\n';
+    echo 'abc\n';
+?>
+Dòng text này là mã xuất trực tiếp mà không phải qua code PHP
+<?php
+    echo 'Hi PHP agin!\n';
+    echo time();
+?>
+
+Sử dụng thẻ php :
+<?php 
+   // ... trong này là code PHP
+?>
+   // Những dòng chữ không trong <?php  ...  ?>  tại đây tự động xuất ra output
+<?php
+    // code php khác nữa -- trong một file có thể có nhiều khối <?php ... ?> 
+    // ... trong này là code PHP
+?> 
+
+Trong một file chỉ có code PHP thì bạn không cần phải đóng thẻ ?>
+Bạn có thể dùng dạng ngắn của <?php ... ?> là <? ... ?>, trong php.ini phải có thiết lập --enable-short-tags = On
+
+<?
+    // ... code php ở đây
+?>
+
+2.Chú thích - comment trong PHP
+Chú thích một dòng bắt đầu bằng # hoặc // ,Chú thích nhiều dòng /* ... */ :
+<?php
+
+# Đây là một chú thích
+# Đây là chú thích nữa
+// Đây cũng là chú thích. Ba chú thích trên ba dòng
+
+echo "Hi";
+
+3. Biến trong lập trình PHP 
+- Biến trong PHP được biểu diễn bởi ký tự $ (dollar), sau đó là tên biến :
+$ten_bien = giá_trị_hoặc_biểu_thức_giá_trị;
+$nam_sinh = 2000;       // khai báo tên biến và gán bằng một giá trị
+$tong = 12 + 8;         // khai báo tên biến và gán bằng giá trị của một biểu thức (20)
+
+- Gán đi gán lại được kể cả kiểu dữ liệu thay đổi đi nữa
+
+$a = 123;
+echo var_dump($a);           // int 123
+
+$a = 'XUANTHULAB';
+echo var_dump($a);        // string 'XUANTHULAB' (length=10)
+
+$a = true;
+echo var_dump($a);         // boolean true
+
+- Khi bạn viết $$ten_bien thì bạn đang truy cập vào biến, có tên lưu trữ trong $ten_bien :
+$a = 'b';                 // $a có giá trị là 'b'
+$$a = 'c';         // Tương đương gán biến $b =  'c'
+$$$a = 'd';       // Tương đương gán biến $c =  'd'
+
+- Từ khoá global trong PHP :
+$count = 10;
+function count() {
+    global $count;
+    $count++;
+    print "$count";
+}
+count();            // 11
+print "$count";     // 11
+
+- Từ khoá STATIC :
+STATIC $count = 0;
+
+4. Các kiểu dữ liệu trong PHP
+Kiểu int - số nguyên : Hằng số PHP_INT_MAX và PHP_INT_MIN.
+Kiểu float - số thực : $PI = 3.14
+Kiểu boolean - logic
+Kiểu string - chuỗi ký tự
+Kiểu array - Mảng : key(khóa) và giá trị (value).
+
+Kiểu object - Đối tượng : 
+các kiểu dữ liệu khác có thể chuyển về object với cú pháp:
+  $ob = (object)$value;  object có thuộc tính scalar, mảng thì có thuộc tính là các key :
+  $ob = (object)"XuanThuLab";     // Covert chuỗi sang object
+    var_dump($ob);
+    echo $ob->scalar;               // XuanThuLab
+
+Kiểu callable - Kiểu code thi hành được (callback) 
+function tinhtoan(callable $pheptoan, $number)
+{
+    echo 'Kết quả là: ' . $pheptoan($number);
+}
+tinhtoan('sqrt', 100);      // In ra căn bậc 2 của 100
+
+Kiểu iterable - Duyệt qua được
+Kiểu resource - Tài nguyên ngoài phạm vị PHP (như kết nối dữ liệu, kết nối mạng ...)
+
+Kiểu NULL - Rỗng : $yourvar = null;
+$name = 'XUANTHULAB';
+unset($name);               // $name sẽ bằng null 
+
+Sự lỏng lẻo của kiểu dữ liệu trong PHP
+Chuyển thành số : trong biểu thức sử dụng các phép toán số học + - * / ... thì giá trị của biến sẽ cố gắng chuyển thành số:
+$a = "5";           // Chuỗi ký tự "5"
+$b = 6;
+echo $a * $b;       // in ra 30; nó đã chuyển chuỗi "5" thành số 5
+
+Ép kiểu chuyển kiểu với PHP
+$result = (typecast)$value
+Trong đó: typecast có thể là: int (hoặc integer) bool (hoặc boolean) float (hoặc double) string (hoặc binary) array object
+$a = 2000.2020;     // $a kiểu float
+$b = (int)$a;       // ép về kiểu int
+var_dump($b);       // int 2000
+
+5. Các hàm kiểm tra kiểu dữ liệu của biến hủy biến trong PHP
+is_array	Kiểm tra biến có phải là mảng
+is_callable	Kiểm tra biến có phải là một callback
+  var_dump(is_callable('Sqrt'));  // true
+is_countable	Kiểm tra biến có phải là kiểu triển khai từ lớp Countable, bên trong có hàm count cho biết số phần tử.
+is_float	Hoặc is_double, kiểm tra xem có phải là số thực
+is_int	Hoặc is_integer, is_long kiểm tra xem phải số nguyên
+is_iterable	Kiểm tra biến có phải là tập hợp các phần tử có thể duyệt qua với foreach
+is_null	kiểm tra một biến có phải null / rỗng không
+is_numeric	kiểm tra biến là số hoặc chuỗi chứa số
+is_object	Kiểm tra biến có phải là một đối tượng object
+is_resource	Kiểm tra biến có phải là một tài nguyên
+is_scalar	Kiểm tra biến có phải là số nguyên, số thực, chuỗi hoặc mảng
+is_string	Kiểm tra biến có phải chuỗi hay không
+
+Hàm isset được dùng để kiểm tra biến, nếu trả về true thì biến đó có tồn tại và có giá trị khác null
+Hàm empty() trả về true nếu biến tồn tại và có giá trị rỗng. 
+Hàm unset hủy biến khỏi chương trình : unset($abc);
+
+6. Debug đơn giản trong PHP
+Hàm var_dump() sẽ hiện thị thông tin về giá trị (với đối tượng thì nó gồm thuộc tính public, private, protected) và kiểu dữ liệu, của một hoặc nhiều biến kể cả biểu thức. 
+Syntax : var_dump($var1, $var2 ...);
+$a = 123; $b = 123.123; $c = 'XuanThuLab';
+var_dump($a, $b, $c, $a == $b); // Cả 4 câu lệnh trên có thể viết gộp lại
+
+Hàm var_export() giống với var_dump trong php có thêm thiết lập thông tin đó xuất ra output hay trả về chuỗi.
+Syntax : var_export($var, $return = false); 
+$abc = [1,2,3,4];
+$info = var_export($abc);
+echo '<pre>'.$info.'</pre>';
+
+Hàm print_r giống với var_export cũng lấy thông tin về biến và có thiết lập trả về chuỗi hay xuất kết quả luôn. 
+Syntax : print_r($var, $return = false);
+$array = [1,2, 'three' => [ 'x', 'y', ['a', 'b']]];
+echo '<pre>' . print_r($a, true) . '</pre>';
+
+7. Hằng số : 
+- Tên hằng số thi không cần bắt đầu bằng ký tự dollar $ như biến.
+- Định nghĩa hằng số với hàm define :
+define ( string $name , mixed $value) : bool
+Trong đó $name là tên hằng số, và $value là giá trí gán cho hằng số, giá trị hằng số phải là một trong các kiểu:  boolean, integer, float và string.
+<?php 
+    define("FIRSTWEEKDAY", 'MONDAY');
+    echo FIRSTWEEKDAY, PHP_EOL;         //Lấy hằng số bằng cách chỉ ra tên
+
+    //Trong trường hợp bạn dùng biến lưu trữ tên hằng thì lấy giá trị của hằng bằng hàm constant($name).
+    $firstweek = 'FIRSTWEEKDAY';
+    echo constant($firstweek), PHP_EOL; // Lấy hằng số có tên lưu trong biến $firstweek
+?> 
+kiểm tra xem một hằng số đã được định nghĩa hay chưa bằng hàm defined($ten-hang-so);
+if (!defined('MYCOLOR'))
+{
+    define('MYCOLOR', 'Green');
+}
+
+- Định nghĩa hằng với từ khóa const :
+// Định nghĩa hằng số bằng từ khóa const
+const MONDAY = "THỨ HAI";
+echo MONDAY, PHP_EOL;
+
+// hằng số là một mảng các ký tự
+const DAYOFWEEK = [
+    'CHỦ NHẬT', 'THỨ HAI', 'THỨ BA', 'THỨ TƯ', 'THỨ NĂM', 'THỨ SAU', 'THỨ BẢY',
+];
+// Truy cập đọc hằng số
+echo DAYOFWEEK[6]; // THỨ BẢY
+
+- Các hằng số đặc biệt (Magic Constant) trong PHP : 
+__LINE__	Dòng hiện tại của php file.
+__FILE__	Tên file đầy đủ của script đang thi hành.
+__DIR__	Tên thư mục đầy đủ của file PHP
+__FUNCTION__	Lấy tên của hàm đang chạy
+__CLASS__	Tên của lớp đang chạy
+__TRAIT__	Tên của trait đang chạy
+__METHOD__	Lấy tên mothod của lớp
+__NAMESPACE__	Lấy tên namspace
+ClassName::clas	Tên đầy đủ của một lớp
+
+Hàm get_defined_constants, nó trả về mảng các hằng số có trong PHP đang hoạt động của bạn : 
+$allConst = get_defined_constants(true);
+print_r($allConst);
+
+8. Vòng lặp foreach
+- Vòng lặp foreach chỉ hoạt động dựa trên mảng (mảng PHP) hoặc trên các đối tượng triển khai từ giao diện Iterator của thư viện chuẩn.
+Ví dụ in ra giá trị các phần tử của mảng:
+$names = array("THUY", "LONG", "DAN");
+foreach ($names as $name) {
+    echo $name.'<br />';
+}
+Ví dụ: lấy cả key và value khi lặp
+$params = ['a' => 1, 'b' => 10, 'c' => 100];
+foreach ($params as $nameparam => $value)
+{
+    echo "Tham số $nameparam = $value <br>";
+}
+/*
+Tham số a = 1
+Tham số b = 10
+Tham số c = 100
+ */
+
+9. Khái niệm mảng trong Php
+$mang1 = array();   // tạo một mảng rỗng
+$mang2 = [];        // tạo một mảng rỗng - cú pháp này dễ đọc hơn.
+$names = ["An", "Minh", "Long"];    // khởi tạo mảng $name, đưa vào nó 3 phần tử
+
+$ten      =  $names[2];             // Long
+$names[1] = 'Nguyên';               // phần  tử chỉ số 1 gán giá trị  mới
+
+$bienmang[index] = $giatri;          // thêm vào phần tử với chỉ số index
+
+$bienmang[] = $giatri;               // thêm vào cuối phần tử mới, chỉ số phần tử này bằng chỉ số lớn nhất cộng 1
+
+
+$names[20] = "A";
+$names[2]  = "B";
+$names[1]  = "C";
+var_export($names); 
+/*
+    array (
+        20 => 'A',
+        1 => 'B',
+        2 => 'C',
+    )
+*/
+$names[] = "D";     //thêm vào cuối
+var_export($names); 
+/*
+array (
+    20 => 'A',
+    2 => 'B',
+    1 => 'C',
+    21 => 'D',
+)*/
+Từ ví dụ trên bạn thấy, chỉ số index không phải là thứ tự sắp xếp các phần tử trong mảng. 
+// vòng lặp, lấy giá trị từng phần tử
+foreach ($bienmang as $value) {
+    var_dump($value);
+}
+
+// vòng lặp, lấy  giá trị  và chỉ số từng phần tử
+foreach ($bienmang as $key => $value) {
+    var_dump($key, $value);
+}
+
+Kiểm tra số phần tử trong mảng : $leng = count($names);
+$ngay_thu  =  [
+        'Mon' => "Thứ Hai",
+        'Tue' => "Thứ Ba",
+        'Wed' => "Thứ Tư",
+        'Thu' => "Thứ Năm"
+    ];
+
+$diem = [
+        'Hùng' => [
+            'Toán' => 8,
+            'Lý' => 7,
+            'Hóa'  => 9
+        ],
+        'Huy' => [
+            'Toán' => 7,
+            'Lý' => 8,
+            'Hóa'  => 8
+        ],
+        'Hưng' => [
+            'Toán' => 9,
+            'Lý' => 9,
+            'Hóa'  => 9
+        ],
+    ];
+echo $diem['Huy']['Hóa'];  // 8
+
+10. Chuỗi ký tự trong Php
+Thường thì bạn có 4 cách để có được chuỗi ký tự trong PHP:
+Sử dụng cặp ký tự nháy đơn ''
+Sử dụng cặp ký tự nháy kép ""
+
+Sử dụng cú pháp heredoc :
+Heredoc bao giờ cũng bắt đầu bằng <<<, tiếp theo là một tên định danh do bạn đặt rồi phải xuống dòng ngay, và cuối cùng phải kết thúc bằng định danh; ở một dòng mới.
+VD: <?php
+    $congi = 'mèo';
+    $caygi = 'cau';
+    
+    $str = <<<CONMEO
+    Con $congi mà trèo cây $caygi,
+    Hỏi thăm chú chuột đi đâu vắng nhà. 
+    Chú chuột đi chợ đường xa.
+    Mua mắm mua muối giỗ cha chú $congi.
+    CONMEO;
+    
+    echo $str;
+?>
+
+Kết quả:
+Con mèo mà trèo cây cau, 
+Hỏi thăm chú chuột đi đâu vắng nhà. 
+Chú chuột đi chợ đường xa.
+Mua mắm mua muối giỗ cha chú mèo.
+
+Sử dụng cú pháp nowdoc : 
+Cách này khá giông với Heredoc, nhưng bắt đầu bằng <<<'Định-Danh' (có cặp '' - heredoc thì không có). 
+Nowdoc vẫn cho phép viết trực tiếp các ký tự đặc biệt nhưng sẽ không phân tích biến đề chèn vào chuỗi.
+
+<?php
+    $congi = 'mèo';
+    $caygi = 'cau';
+    
+    $str = <<<'CONMEO'
+    Con $congi mà trèo cây $caygi,
+    Hỏi thăm chú chuột đi đâu vắng nhà. 
+    Chú chuột đi chợ đường xa.
+    Mua mắm mua muối giỗ cha chú $congi.
+    CONMEO;
+    
+    echo $str;
+?>
+
+Kết quả:
+Con $congi mà trèo cây $caygi, 
+Hỏi thăm chú chuột đi đâu vắng nhà. 
+Chú chuột đi chợ đường xa.
+Mua mắm mua muối giỗ cha chú $congi.
+
+Nối các chuỗi ký tự trong PHP
+Để nối các chuỗi lại với nhau sử dụng toán tử nối . nhớ là dấu chấm chứ không phải + :
+<?
+    $str1 = 'I';
+    $str2 = 'PHP';
+
+    $str3 = $str1.' learn '.$str2;
+
+    echo $str3;
+?>
+
+//OUT: I learn PHP
+
+11. Sử dụng các khối điều khiển thay thế khi nhúng mã PHP vào HTML
+
+- Rút gọn echo bằng <?=$var>
+<?php 
+    echo $var; 
+?>
+Thì có thể viết là:
+<?=$var?>
+
+- Khối lệnh if ... endif trong php
+if (condition):
+    ... các dòng lệnh
+    ... các dòng lệnh
+endif;
+Viết kết hợp với xuất HTML : 
+<?php if ($condition):?>
+    <p>Các mã HTML xuất ra nếu điều kiện $condition là true</p>  
+<?php endif;?>
+
+- Khối if - else - endif : 
+<?php if ($condition):?>
+    <p>Nội dung HTML xuất ra nếu điều kiện $condition là true</p> 
+<?php else:?>
+    <p>HTML xuất ra nếu điều kiện $condition là false</p> 
+<?php endif;?>
+
+- Khối lệnh for ... endfor trong php :
+<?php for (khởi_tạo; điều_kiện; cập_nhật):?>
+    ... mã HTML ...
+<?php endfor;?>
+
+- Khối lệnh foreach ... endforeach trong php :
+<?php foreach ($items as $item):?>
+    <p>This is : <?=$item?></p>
+<?php endforeach;?>
+
+- Khối lệnh while ... endwhile trong php :
+<?php while ($conditon):?>
+    <h1>Out put</h1>
+    <?php
+        // thiết lập false khi cần thoát lặp
+        $conditon = false; 
+    ?>
+<?php endwhile;?>
+
+- Khối lệnh switch .. case ... endswitch trong php :
+<?php switch ($case):?>
+    <?php case 100:?>
+       <h1>100</h1>
+    <?php break;?>
+    <?php default:?>
+        <h1>Default</h1>
+    <?php break?>
+<?php endswitch;?>
+
+12 .Hàm trong lập trình PHP
+- Có thể ko cần khai báo kiểu dữ liệu cho nó, 
+function nhanHaiso($so1, $so2) {
+    $ketqua = $so1 * $so2;
+    echo $ketqua;
+}
+nhanHaiso(2,5);
+//kết quả 10
+
+- Tham số mặc định :
+function setNam(string $name='noname') {
+    echo "Name is ".$name;
+}
+setNam('PHP');  // Name is PHP
+setNam();       // Name is noname
+
+Bạn cũng có thể chỉ rõ kiểu trả về của một hàm, với cú pháp:
+function functionName() : kiểu_trả_về (void, int, string, array ...)
+{
+    // code thực thi
+}
+
+function addFive($number) {
+    $number += 5;
+    return $number;
+}
+echo addFive($a)
+echo addFive(&$a) // Truyền tham chiếu
+
+Gọi hàm động
+Động ở đây nghĩa có thể lưu tên hàm như một chuỗi và gọi hàm thông qua chuỗi này. Ví dụ hàm addFive và phepnhan ở trên.
+
+//Cách gọi thông thường:
+$a = 5;
+echo phepnhan(5,6);
+echo addFive($a);
+
+//Gọi thông qua một biến lưu tên hàm.
+$func1 = 'phepnhan';
+$func2 = 'addFive';
+
+echo $func1(5,6);   // <---- Tương đương gọi phepnhan(5,6)
+echo $func2($a);    // <---- Tương đương gọi addFive($a)
+
+Hàm function_exists($functionName) trả về true nếu hàm trong chuỗi $functionName có tồn tại trong hệ thống. 
+
+Danh sách tham số hàm với ký hiệu ...
+Bạn có thể khai báo hàm mà tham số nhập vào là tùy ý người dùng khi đó khai báo như sau: $names là mảng
+function printNames(...$names)
+{
+    foreach ($names as $name)
+        print($name . '<br>');
+}
+printNames('Mr A','Mr B', 'Mr C');
+
+13. Các biến định nghĩa trước trong PHP
+Trong PHP có một số loại biến gọi là siêu toàn cục superglobal, nó đã được PHP định nghĩa trước để lưu một số thông tin phục vụ cho ứng dụng, bạn có thể truy cập bất kỳ lúc nào, và phạm vi truy cập là bất kỳ đâu. 
+Hiện tại đó là các biến siêu toàn cục có tên sau: $_SERVER, $GLOBALS, $_REQUEST, $_POST, $_GET, $_FILES, $_ENV, $_COOKIE, $_SESSION.
+
+Biến $_SERVER trong PHP :
+$_SERVER là một mảng chứa các thông tin do WEBSERVER sinh ra như header, path, location script. Điều này có nghĩa một số dữ liệu sẽ khác nhau tùy vào WEBSERVER bạn dùng (Http Apache, Nginx ...). 
+$_SERVER['QUERY_STRING']	chuỗi query trang đang truy cập. (Ví dụ trang truy cập là http://domain.com/pathurl/?page=news&id=100 - nó trả về là chuỗi query là ?page=news&id=100)
+$_SERVER['REQUEST_URI']	trả về URI của trang. /pathurl/
+$_SERVER['HTTP_HOST']	trả về Host của trang, ví dụ xuanthulab.net.	
+$_SERVER['HTTP_REFERER']	nếu có thì nó là trang dẫn user agent chuyển đến trang hiện tại, ví dụ trang chứa Link mà người dùng bấm vào để đến trang hiện tại. (Có thể dùng cái này để biết người dùng vào website qua google search với những từ khóa nào)	
+$_SERVER['SCRIPT_NAME']	trả về đường dẫn của file script php hiện tại.	
+$_SERVER['REQUEST_METHOD']	trả về phương thức nào truy vấn đến Server như POST, GET, HEAD, PUT	
+$_SERVER['REQUEST_TIME']	trả về giá trị thời gian timestamp là lúc bắt đầu yêu cầu được gửi đến Server	
+$_SERVER['HTTP_USER_AGENT']	lấy User-Agent là header của yêu cầu gửi đến, qua cái này có thể biết được thông tin như Trình duyệt, Hệ điều hành, Thiết bị ... đang truy cập	
+$_SERVER['REQUEST_TIME']	trả về giá trị thời gian timestamp là lúc bắt đầu yêu cầu được gửi đến Server (Unix time)	
+$_SERVER['REMOTE_ADDR']	Lấy IP đang truy cập trang.	
+$_SERVER['HTTP_COOKIE']	Chuỗi là dữ liệu Cookie.
+
+Biến $GLOBALS trong PHP :
+$GLOBALS là một biến mảng chứa tất cả các tham chiếu đến các biến toàn cục (global). Với key của mảng là tên biến. 
+$_SERVER là một biến toàn cục thì bạn có thể truy cập đến biến đó thông qua $GLOBALS['_SERVER'] như là một cách thức mới.
+
+Biến $_REQUEST trong PHP :
+Biến này là một mảng kết hợp, lưu trữ thông tin chứa trong biến $_GET, $_POST và $_COOKIE. Gộp các dữ liệu do người dùng gửi đến thành một.
+
+Biến $_SESSION, $_COOKIE :
+Biến $_SESSION lưu trữ thông tin phiên làm việc của PHP, $_COOKIE dữ liệu nhỏ do trình duyệt gửi lên: hai biến này trình bày trong chủ đề Session và Cookie
+
+Biến $_POST và $_GET trong PHP :
+Ví dụ: HTML sau sử dụng form với phương thức get
+<form action="info.php" method="get">
+  Tên: <input type="text" name="name" /><br /><br />
+  Tuổi: <input type="text" name="age" /><br /><br />
+  <input type="submit" name="submit" value="Gửi" />
+</form>
+info.php có nội dung:
+<?php
+    echo "Chào "$_GET['name'].". ";
+    echo "Bạn ".$_GET['age']." tuổi.";
+?>
+
+Biến $_files trong PHP :
+Biến $_files lưu thông tin các file upload lên server. 
+
+Biến $_ENV trong PHP :
+$_ENV là mảng chứa các biến môi trường được gửi đến.
+
+14. Sử dụng Session và Cookie trong PHP
+Cookie là mẩu tin nhỏ được lưu ở máy người dùng (cụ thể là tại Browser, trình duyệt), Cookie sử dụng với mục đích để theo dõi, lưu lại hoạt động truy cập. 
+
+- Từ PHP có thể thiết lập Cookie bằng hàm setcookie (nhớ phải gọi trước các dòng code xuất html).
+setcookie($name, $value, $expire = 0, $path="", $domain = "", $security = false, $httponly = false);
+
+name là tên cookie, tên này được sử dụng để truy cập vào biến $_COOKIE để lấy thông tin
+value giá trị gán cho cookie
+expire Thời điểm hết hạn (hủy) của cookie, thời gian dạng Unix timestamp, có thể dùng hàm time() để lấy Unix timestamp. Sau thời điểm này Cookie bị hủy lưu tại trình duyệt. Nếu thiết lập là 0 thì cookie hủy khi đóng trình duyệt
+path đường dẫn mà cookie có hiệu lực. Sử dụng / cho biết cookie có hiệu lực ở cấp độ domain - mọi URL thuộc domain, nếu thiết lập là /foo/ thì Cookie chỉ có hiệu lực với các URL dạng /foo/ và các con của nó như /foo/abc/... Nếu để giá trị mặc định "" thì có hiệu lực theo đường dẫn hiện tại
+domain tên miền
+security = true nếu sử dụng HTTPS để truyền dữ liệu (mặc định false)
+$httponly mặc định là false, nếu true thì chỉ cho phép cookie với giao thức HTTP
+
+<?php
+    setcookie("name", "XUANTHULAB", time() + 600, "/");
+    echo "Set cookie";
+?>
+Đoạn mã trên thiết lập lưu Cookie với tên name, giá trị là XUANNTHULAB, hết hạn sau 10 phút (tức 600 giây)
+
+- Truy cập - đọc - Cookie :
+Bạn dùng biến $_COOKIE là một mảng để truy cập thông tin cookie do trình duyệt gửi lên. 
+Giống như Session bạn nên dùng isset() để kiểm tra sự tồn tại của COOKIE.
+
+readcookie.php
+<?php
+  if( isset($_COOKIE["name"]))
+  {
+      echo "Welcome " . $_COOKIE["name"];
+  }
+  else
+  {
+      echo "Không có tên";
+  }
+?>
+
+- Xóa Cookie :
+Để yêu cầu trình duyệt xóa cookie bạn sử dụng chính hàm setcookie với thủ thuật đặt thời gian đã hết hạn. 
+Ví dụ:
+setcookie( "name", "", time()- 60, "/","", 0);
+
+- Khái niệm về Session (Phiên đăng nhập) : trao đổi thông tin khi duyệt từ page này sang page khác.
+startsession.php
+
+<?php
+  if (session_id() === '') session_start();
+  echo "Session đang chạy";
+  
+// Kiểm tra bạn thấy có Cookie gửi về, cookie này dùng để phục hồi dữ liệu Session
+Biến toàn cục $_SESSION: kiểu mảng là nơi SESSION lưu trữ thông tin - cũng chính là dữ liệu phục hồi được giữa các trang, bạn truy cập biến này trong suốt vòng đời của session để lấy, lưu trữ thông tin.
+Hủy Session
+Bạn có thể hủy một biến, giá trị ... đã lưu vào Session:
+
+Để hủy một biến nào đó lưu trữ trong Session thì dùng lệnh unset ví dụ unset($_SESSION['counter']);
+Để hủy toàn bộ Session thì dùng lệnh session_destroy()
+Từ nắm vững Cookie và Session là cơ sở để xây dựng lên các hệ thống như cho phép user đăng nhập vào website, xây dựng ứng dụng giỏ hàng đặt hàng ...
+
+15. Hàm include trong PHP nạp file code bên ngoài
+Sử dụng các lệnh include, include_once, require, require_once để gộp và thực thi các file code PHP, nạp file mã PHP từ bên ngoài
+include 'ten-file-php.php'
+
+- Lệnh include trong PHP : Lệnh include đọc nội dung của file, thi hành nó. Cú pháp:
+Giả sử bạn tạo một menu chung cho các trang. Thì bạn có thể tạo file menu.php với nội dung như sau:
+<a href="/">Home</a> -   
+Với file menu.php này bạn có thể gộp nó vào các file khác, ví dụ bạn tạo file index.php:
+
+<html> 
+    <body>
+        <?php include("menu.php"); ?>
+        <p>Đây là ví dụ về lệnh include()!</p>
+    </body>
+</html>
+
+Hoặc include "mgs.php";
+$thongbao =  include 'mgs.php';  
+echo $thongbao;
+
+Một file ngoài đơn thuần tính toán xuất kết quả trả về có thể include nhiều lần, nhưng nếu file đó có định nghĩa function, class ... thì nếu include lại thì là định nghĩa lại - sẽ không được phép, phát sinh lỗi.
+
+- Hàm include_once trong PHP : Dùng cho file định nghĩa hàm,class
+Hàm include_once chức năng giống hệt include, điều khác duy nhất nếu một file đã từng được nạp vào thì include_once lần 2, 3 sẽ không làm gì (không nạp lại).
+<?php
+    include_once 'tinhtoan.php';        // <--- lần đầu nạp - in ra: Nạp tinhtoan.php
+
+    echo tong(1,2);                     // <--- Sử dụng hàm khai báo trong tinhtoan.php
+
+    include_once 'tinhtoan.php';        // <--- không in thông tin gì, không thi hành
+    include_once 'tinhtoan.php';
+    echo hieu(1,2);
+
+- Hàm require và require_once :
+Chức năng hàm require thì giống hệt include, còn require_once giống include_once. 
+Điều khác là nếu file không tồn tại thì include/include_once phát lỗi Warning, script có thể vẫn chạy tiếp, còn với require/require_once sẽ phát lỗi Error, script sẽ dừng ngay lập tức.
+
+16. Làm việc với file trong PHP 
+- Hàm fopen và fclose trong PHP :
+fopen() là hàm mở file để chuẩn bị đọc, ghi thông tin, cú pháp như sau:
+$file = fopen($filename, $mode);
+
+$filename tên file với đường dẫn đầy đủ. Hoặc là URL của file cần mở. $mode chế độ mở file với một số giá trị như sau :
+"r" - Mở file chỉ để đọc
+"r+" - Mở file dể đọc và ghi
+"w" - Mở file chỉ để ghi, khi mở nội dung trong file bị xóa sạch hoặc nếu file đó không tồn tại thì sẽ cố gắng tạo ra file mới.
+"w+" - Mở file có thể đọc / ghi, khi mở nội dung trong file bị xóa sạch hoặc nếu file đó không tồn tại thì sẽ cố gắng tạo ra file mới.
+"a" - Mở file chỉ để ghi, bắt đầu ghi ở vị trí cuối file, có tạo file mới nếu không tồn tại.
+"a+" - Mở file để đọc/ghi.
+"x" - Tạo file mới để ghi. Trả về false và phát sinh lỗi nếu file đã có
+"x+" - Tạo file mới đọc/ghi. Trả về false và phát sinh lỗi nếu file đã có.
+"c" - Mở file chỉ ghi hoặc tạo mới nếu không tồn tại.
+"c+" - Mở file đọc/ghi hoặc tạo mới nếu không tồn tại.
+
+Hàm feof($file) là hàm cho biết vị trí đang ở cuối file hay không, trả về true là ở cuối file.
+
+Sau khi thực hiện các tác vụ trên tài nguyên file đang mở thì phải đóng lại để giải phóng tài nguyên bằng cách gọi hàm fclose
+
+VD :
+$myfile = fopen("file.txt", "w");
+
+    ...
+
+// đóng file
+fclose($myfile);
+
+fopen($filename, $mode)	Mở file, tạo file mới
+fclose($stream)	Đóng file đang mở
+feof($stream)	Trả về true nếu con trỏ ở cuối file
+
+- Ghi dữ liệu vào file với hàm fwrite / fputs trong PHP :
+fwrite($myfile, $txt);
+//$myfile: là file đã được mở để ghi
+//$text: là chuỗi cần ghi vào file.
+VD:
+$myfile = fopen("names.txt", "w");
+//Dùng ký hiệu \n để ghi dòng mới (xuống dòng).
+$txt = "John\n"; 
+fwrite($myfile, $txt);
+$txt = "David\n";
+fwrite($myfile, $txt);
+
+fclose($myfile);
+
+/* Nộ dung file:
+John
+David
+*/
+
+Ví dụ, ghi thêm nội dung vào file
+Nếu muốn nối thêm nội dung vào file, bạn cần mở file với chế độ nối file 'a', Ví dụ:
+
+<?php
+    $myFile = "test.txt";
+    $fh = fopen($myFile, 'a');
+    fwrite($fh, "Some text");
+    fclose($fh);
+?>
+Khi mở file bằng chế độ 'a' con trỏ file sẽ trỏ đến cuối file, đảm bảo rằng nội dung ghi sẽ nối vào file
+
+- Đọc nội dung file, hàm fread trong PHP
+Để đọc các byte trong file, sử dụng hàm fread như sau:
+fread($stream,$length);
+Với $stream là file đã mở để đọc và $length là số byte cần đọc. 
+Bạn có thể dùng hàm filesize($filename) để lấy cỡ file (bao nhiêu byte). 
+VD: $urlImage = 'https://raw.githubusercontent.com/xuanthulabnet/learn-php/master/imgs/html-001.png';
+    $fImage = fopen($urlImage, 'r');
+
+    // Đọc đến cuối file, mõi lần đọc 4000 byte, lưu dữ liệu đọc được vào $data
+    $data = null;
+    while (!feof($fImage))
+    {
+        $data .= fread($fImage, 4000);
+    }
+    fclose($fImage);
+    echo strlen($data) . ' byte đọc được <br>';
+
+    // Lưu dữ liệu đọc được vào file test.png
+    $filename = __DIR__ .'/test.png';
+    $streamwrite = fopen($filename, 'w');
+    fwrite($streamwrite, $data);
+    fclose($streamwrite);
+    echo 'Lưu file tại:<br>' . $filename;
+
+- Đọc một chuỗi trong file với hàm fgets trong PHP
+Hàm fgets($file) đọc một dòng tại vị trí con trỏ file hiện tại. 
+// Mở file để đọc - con trỏ ở đầu
+$myfile = fopen("https://raw.githubusercontent.com/xuanthulabnet/learn-php/master/Readme.md", "r");
+
+// Đọc từng dòng của file cho đến khi con trỏ dịch đến cuỗi file (hết file)
+while(!feof($myfile)) {
+    $line = fgets($myfile);
+    echo $line. "";
+}
+fclose($myfile);
+
+- Đọc toàn bộ nội dung file trong PHP :
+Hàm file() đọc nội dung của file và đưa vào một mảng. Mỗi phần tử của mảng tương ứng với một dòng của file.
+$read = file('https://raw.githubusercontent.com/xuanthulabnet/learn-php/master/Readme.md');
+    foreach ($read as $line) {
+        echo $line ."<br>";
+    }
+
+- Đọc toàn bộ nội dung file với hàm file_get_contents trong PHP :
+Hàm file_get_contents($filename) - đọc toàn bộ nội dung một file trả về một chuỗi là nội dung đó, tham số chỉ ra là tên filec cần đọc
+
+- Hàm file_put_contents trong PHP :
+Hàm file_put_contents($filename, $data, $flag = 0) lưu dữ liệu vào file có tên $filename, dữ liệu $data là một chuỗi, mảng dữ liệu. 
+Nếu $flag = 0 sẽ ghi đè dữ liệu file nếu file tồn tại. Nếu $flag = FILE_APPEND thì nối thêm dữ liệu vào file.
+// Ghi nói thêm một chuỗi vào file
+file_put_contents('names.txt', 'xuanthulab', FILE_APPEND);
+
+17 . Gửi email trong PHP 
+Hàm mail() dùng để gửi email, cú pháp gửi mail như sau:
+mail($to ,$subject ,$message, [$headers], [$parameters]);
+$to : địa chỉ nhận mail, một hoặc nhiều địa chỉ cách nhau bởi , (mail1@example.com,mail2@example.com)
+$subject : Tiêu đề của mail
+$message : Nội dung mail
+$headers : Tùy chọn này có hoặc không, mở rộng cho phần header của mail ví dụ From, Cc, Bcc, tham số này cách nhau bởi cặp ký tự \r\n
+$parameters : tùy chọn, nếu có nó thiết lập tham số bổ sung cho trình gửi mail (sendmail của Server)
+
+$to      = "abc@example.com";
+$subject = "Tiêu đề email";
+$message = "Nội dung email";
+$header  =  "From:myemail@exmaple.com \r\n";
+$header .=  "Cc:other@exmaple.com \r\n";
+
+$success = mail ($to,$subject,$message,$header);
+
+if( $success == true )
+{
+    echo "Đã gửi mail thành công...";
+}
+else
+{
+      echo "Không gửi đi được...";
+}
+
+18. Sử dụng Form đọc dữ liệu gửi đến từ Form với PHP
+$_GET, $_POST,
+VD: 
+form/first.php
+<?php
+    echo '$_POST<br>';
+    var_dump($_POST);
+    echo '$_GET<br>';
+    var_dump($_GET);
+
+?>
+
+<form action="first.php" method="post">
+    <p>Name: <br> <input type="text" name="name" /></p>
+    <p>Age: <br> <input type="text" name="age" /></p>
+    <p><input type="submit" name="submit" value="Gửi đi" /></p>
+</form>
+
+Bạn submit thử dữ liệu, thì nó có thể có kết quả:
+$_POST
+array (size=3)
+  'name' => string 'xuanthulab' (length=10)
+  'age' => string '25' (length=2)
+  'submit' => string 'Gửi đi' (length=9)
+
+$_GET
+array (size=0)
+Như vậy thấy các biến name,age,submit từ FORM HTML đã chuyển đến PHP trong mảng $_POST
+
+- Kiểm tra là POST hay GET :
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // POST ĐẾN
+}
+
+<?php
+$name = isset($_POST['name']) ? $_POST['name']:null;
+$age  = isset($_POST['age']) ? $_POST['age']:null;
+
+if ($name) {
+    echo "Tên của bạn: $name<br>";
+    echo "Tuổi: $age<br>";
+
+}
+else
+    echo "<p>Nhập dữ liệu và bấm vào Gửi đi</p>";
+
+?>
+
+<form action="first.php" method="post">
+    <p>Name: <br> <input type="text" name="name" /></p>
+    <p>Age: <br> <input type="text" name="age" /></p>
+    <p><input type="submit" name="submit" value="Gửi đi" /></p>
+</form>
+
+19. Upload file trong PHP
+- HTML bắt buộc có enctype="multipart/form-data"; input với thuộc tính type="file";
+<form action="/upload.php" method="post" enctype="multipart/form-data">
+    Chọn file để upload:
+    <input type="file" name="fileupload" id="fileupload">
+    <input type="submit" value="Đăng ảnh" name="submit">
+</form>
+
+- Khi file Upload lên Server (chạy PHP) thì file sẽ lưu vào một thư mục tạm (temporary directory, như trên Linux đó là /tmp) của hệ thống PHP, 
+và toàn bộ thông tin về file upload sẽ lưu trong biến mảng toàn cục $_FILES. 
+Chúng ta cần đọc thông tin từ $_FILES để nhanh chóng di chuyển file được upload vào thư mục tạm vào một nơi lưu trữ lâu dài (nếu không xử lý gì, thì sau một khoảng thời gian file này bị xóa).
+
+- Mảng biến $_FILES khi var_dump có cấu trúc dạng như sau:
+array (size=1)
+    'myfile' =>   // myfile là name thẻ ipput
+        array (size=5)
+            'name' => string 'somefile.txt' (length=12)
+            'type' => string 'text/plain' (length=10)
+            'tmp_name' => string '/tmp/phpDC66.tmp' (length=16)
+            'error' => int 0
+            'size' => int 18
+
+Các thành phần đó là:
+myfile : chỉ số mảng tương ứng với tên phần tử input, upload file.
+name : tên gốc (ban đầu) của file.
+type : kiểu file (tùy phần mở rộng có thể là text/plain, image/jpg, image/png ...)
+tmp_name : nơi lưu tạm file upload lên, nếu muốn di chuyển nó ra khỏi thư mục tạm dùng hàm move_uploaded_file.
+error : mã lỗi, nếu mã này bằng 0 là không lỗi.
+size : cỡ file (byte).
+
+- Code PHP xử lý Upload File (Từ khoá die;)
+Kiểm tra :
+ if ($_SERVER['REQUEST_METHOD'] !== 'POST')
+  {
+      // Dữ liệu gửi lên server không bằng phương thức post
+      echo "Phải Post dữ liệu";
+      die;
+  }
+
+  // Kiểm tra có dữ liệu fileupload trong $_FILES không
+  // Nếu không có thì dừng
+  if (!isset($_FILES["fileupload"]))
+  {
+      echo "Dữ liệu không đúng cấu trúc";
+      die;
+  }
+
+  // Kiểm tra dữ liệu có bị lỗi không
+  if ($_FILES["fileupload"]['error'] != 0)
+  {
+    echo "Dữ liệu upload bị lỗi";
+    die;
+  }
+
+Xử lý file upload : https://xuanthulab.net/upload-file-trong-php.html
+
+Code PHP Upload nhiều File :
+<input name="fileupload[]" type="file" multiple="multiple" />
+
+20. Hàm filter_input và filter_var trong PHP (Trả về true, false)
+- Hàm filter_var có chức năng kiểm tra sự phù hợp của dữ liệu, chức năng lọc biến đổi dữ liệu cho phù hợp, như có phải là một số nguyên không, có phải là một địa chỉ URL, loại bỏ chữ giữ lại số ..., 
+Cú pháp:
+filter_var($value, int $filter, array|int $options = 0);
+Trong đó $value là chuỗi (hoặc giá trị tự động chuyển thành chuỗi) được kiểm tra, xem có phù hợp với kiểu đánh giá/lọc được chỉ ra trong $filter. $options tham số thiết lập thêm về kiểu lọc. 
+Hàm trả về dữ liệu phù hợp hoặc false nếu dữ liệu không phù hợp (trả về null nếu có cờ FILTER_NULL_ON_FAILURE).
+
+Ví dụ, kiểm tra chuỗi có phải là một định dạng địa chỉ email
+$email = 'hoclaptrinhphp@gmail';
+$rs = filter_var($email, FILTER_VALIDATE_EMAIL);
+if ($rs === false)
+{
+    echo $email, ' không phải địa chỉ email';
+}
+else
+{
+    echo $rs, ' là một địa chỉ email';
+}
+
+Hàm kiểm tra xem có là số nguyên không âm không.
+function checkId($id="") {
+    if(is_bool($id)){
+        return false;
+    }
+    $id = trim($id);
+    $options = array( 'options' => array( 'min_range' => 0 ) );
+    if( !filter_var($id, FILTER_VALIDATE_INT, $options) ){
+        return false;
+    }
+        return true;
+}
+
+- filter_input trong PHP :
+Chức năng giống giống như filter_var, tuy nhiên dữ liệu kiểm tra lấy từ Http Request (người dùng gửi đến). Cú pháp như sau:
+filter_input($type, $var_name, $filter, $options)
+$type là nơi lấy giá trị dữ liệu một trong các giá trị INPUT_GET, INPUT_POST, INPUT_COOKIE, INPUT_SERVER, INPUT_ENV. Tương ứng $_GET,$_POST,$_COOKIE, $_SERVER, $_ENV.
+$var_name tên biến, tên phần tử lấy để kiểm tra. 
+Ví dụ người dùng POST dữ liệu FORM lên trong FORM HTML giả sử có tên dữ liệu username, thì dữ liệu nằm trong mảng $_POST với tên (chỉ số) là $var_name = 'username'.
+Còn $filter và $options giống tham số của filter_var;
+
+Ví dụ, kiểm tra dữ liệu trong $_POST có tên username là địa chỉ email.
+filter_input(INPUT_POST, 'username', FILTER_VALIDATE_EMAIL);
+
+21. Hàm ẩn danh Anonymous function và hàm mũi tên Arrow function trong PHP
+$tong = function ($a, $b)
+{
+    return $a + $b;
+};
+
+function tinhtoan(callable $callback, $a, $b)
+{
+    $kq = $callback($a, $b);
+    echo '<>Kết quả tính toán là:' . $kq;
+}
+
+tinhtoan(function ($a, $b) {
+            return $a + $b ;
+            },
+    5, 10);
+
+Các hàm ẩn danh (closure) đóng gói phạm vi truy cập của nó.
+có nghĩa bên trong thân hàm ẩn danh chỉ có thể sử dụng các biến được khai báo, định nghĩa trong thân hàm ẩn danh. 
+Muốn cho thêm thì phần tham số cho thêm use(các_biến_ở_phạm_vi_cha)
+
+// biến ở phạm vi cha
+$thongbao = 'Kết quả căn bậc 2 là: ';
+
+// Hàm ẩn danh có thể truy cập đến $thongbao
+$can_bac_hai = function ($a) use ($thongbao) {
+    return $thongbao . sqrt($a);
+};
+echo $can_bac_hai(9);
+// Kết quả căn bậc 2 là: 3
+
+- Arrow function (hàm mũi tên) trong PHP : fn(tham_số_hàm_ẩn_danh) => một_biểu_thức_giá_trị;
+$tong = fn($a, $b) => $a + $b;
+tinhtoan(fn($a, $b) => $a + $b, 5, 10);
+Chú ý: hàm mũi tên, có thể sử dụng biến ở phạm vi cha một cách tự động, không cần dùng từ khóa use
+$can_bac_hai = fn($a) =>  $thongbao . sqrt($a);
+
+22. PHP - kiểm tra email có đúng không
+Dùng biểu thức chính quy RegEx để kiểm tra. 
+function emailValid($email)
+{
+    return (bool)preg_match ("/^([a-zA-Z0-9])+([a-zA-Z0-9\._-])*@([a-zA-Z0-9_-])+\.[A-Za-z]{2,6}$/", $email);
+}
+
+23. Hàm đổi tiếng việt có dấu thành không dấu đổi URL xenforo thân thiện
+- Xây dựng hàm chuyển tiếng việt có dấu sang không dấu :
+   $chuoi = 'XUÂNTHULAB.NÉT';
+    $mang_kytu_goc      = ['Â', 'É'];    // Các ký tự tìm để thay thế
+    $mang_kytu_thaythe  = ['A', 'E'];    // Ký tự sẽ thay thế tương ứng
+
+    $ketqua = str_replace($mang_kytu_goc, $mang_kytu_thaythe, $chuoi);
+    echo $ketqua; // XUANTHULAB.NET
+
+24. Hàm exit die trong PHP
+exit ([$status]);
+//hoặc
+exit (int $status);
+//Hoặc
+exit();
+
+ $a = 100;
+    // b bằng só ngẫu nhiên từ 0 - 2s
+    $b = rand(0, 2);
+    if ($b == 0) 
+        exit('Không thể chia cho số 0');
+        
+    $c = $a / $b;
+    echo "Thương $a/$b là: $c";
+
+Hàm die có cú pháp và ý nghĩa giống exit, nghĩa là cũng dừng script php. 
+Trong thực hành bạn dùng exit khi chương trình kết thúc tại đó là bình thường - đã hoàn thành tác vụ, còn dùng die khi có lỗi không thể khắc phục.
+Có một điểm về exit cần chú ý là: trước khi dừng script thì nó có chạy một phương thức callback đăng ký trong hệ thống bằng hàm register_shutdown_function, đồng thời các đối tượng có hàm hủy, destructor thì các hàm hủy này sẽ được gọi trước khi kết thúc script.
+
+- Hàm register_shutdown_function trong PHP
+Hàm register_shutdown_function đăng ký một hàm callback vào hệ thống, nó sẽ tự động được gọi khi script php kết thúc (hàm shutdown). 
+Bạn có thể đăng ký nhiều callback, nó sẽ tự động được gọi theo thứ tự
+// Đăng ký hàm shutdown, là một hàm vô danh
+register_shutdown_function(function () {
+    echo '<hr>[Thoát chương trình]<br>';
+});
+
+function myShutdown()
+{
+    echo '[myShutdown: Thoát chương trình]';
+}
+// Đăng ký thêm myShutdown là hàm shutdown
+register_shutdown_function('myShutdown');
+
+Từ giờ mỗi khi kết thúc script php hai hàm trên sẽ được thực thi.
+
+25. Sử dụng Callbacks / Callables
+- Hàm callback là một hàm global
+Trong tham số bạn chỉ cần truyền một chuỗi là tên của hàm, ví dụ:
+
+function phepcong($a, $b) {
+    echo 'Tổng là', ($a+$b), PHP_EOL;
+}
+
+function phepnhan($a, $b) {
+    echo 'Tích là', ($a * $b), PHP_EOL;
+}
+
+//  Khai báo hàm tính toán theo hai tham số $a, $b
+//  $pheptinh là tham số lưu trữ một hàm (do vậy gọi là callback)
+function tinhtoan($pheptinh, $a, $b) {
+    // Gọi hàm lưu trong $pheptinh
+    $pheptinh($a, $b);
+}
+
+tinhtoan('phepcong', 5,5);  // in ra 10
+tinhtoan('phepnhan', 5,5);  // in ra 25
+
+- Nếu hàm callback là một phương thức (hàm) của đối tượng lớp (trong class)
+VD1 :
+Bạn cần biết là, một đối tượng lớp $obj, giá sử có phương thức xyz($a, $b), thì để gọi phương thực này bạn gọi nó như đã biết là:
+$obj->xyz(3,4);
+
+Ngoài ra trong PHP, bạn còn có thể sử dụng mảng hai phân tử để cho biết tham chiếu đến $obj rồi đến $xyz, mảng đó có thể gọi như hàm. Cú pháp là
+[$obj,'xyz'](3,4);      // tương đương $obj->xyz(3,4);
+                        // hoặc
+$xyz = [$obj,'xyz'];
+$xyz(3,4);              // tương đương $obj->xyz(3,4);
+
+VD2 :
+class Pheptinh
+{
+    public function Cong($a, $b) {
+        echo 'Tổng là', ($a+$b), PHP_EOL;
+    }
+
+    public function Nhan($a, $b) {
+        echo 'Tích là', ($a * $b), PHP_EOL;
+    }
+    public static function Chia($a,$b)
+    {
+        echo 'Thương là', ($a / $b), PHP_EOL;
+    }
+
+}
+$obj = new Pheptinh();
+
+// Phương thức Cong trong $obj là callback
+tinhtoan([$obj, 'Cong'],      5,5);
+
+// Phương thức Nhan trong $obj là callback
+tinhtoan(array($obj, 'Nhan'), 5,5);
+
+- Nếu hàm callback là một hàm tĩnh trong class (static method) :
+Bạn truyền bằng cách tạo ra mảng hai phần tử ['TÊN-LỚP', 'TÊN-HÀM'], ví dụ:
+tinhtoan(['Pheptinh', 'Chia'],  5,5);
+
+- Hàm callback như là một anonymous - hàm ẩn danh hoặc arrow function :
+tinhtoan(function ($a, $b)
+{
+    echo 'Tổng là', ($a+$b), PHP_EOL;
+}, 5, 5);
+
+// Khai báo hàm ẩn danh, lưu vào $hieu, rồi truyền cho hàm
+$hieu = function ($a, $b)
+{
+    echo 'Hiệu là', ($a - $b), PHP_EOL;
+};
+tinhtoan($hieu, 5, 5);
+
+- Hàm callback là đối tượng lớp thi hành được :
+class MyClass
+{
+    public function __invoke($a, $b){
+        echo 'Hiệu là', ($a - $b), PHP_EOL;
+    }
+}
+
+$obj = new MyClass;
+tinhtoan($obj, 5, 5);
+
+    HƯỚNG ĐỐI TƯỢNG (OOP)
+
+26. Lập trình hướng đối tượng OOP với PHP
+- Tính kế thừa :
+class Child extends Parent { 
+     //..
+  }
+
+- Giao diện - Interface :
+Khi lớp triển khai theo giao diện nào thì tất cả các hàm của giao diện đó lớp phải định nghĩa code đầy đủ. 
+interface ILogger
+    {
+        public function log($message);
+    }
+class ClassName implements InterfaceName1, InterfaceName2 
+    {
+         
+    }
+
+- Lớp, Hàm trừu tượng :
+Phương thức trừu tượng(hàm) là hàm khai báo với từ khóa abstract, nó chỉ là tên phương thức không chứa mã triển khai :
+abstract public function abstractMethod();
+
+Khi một lớp có ít nhất một hàm trừu tượng thì lớp đó được gọi là lớp trừu tượng và trong khai báo lớp cũng chỉ ra từ khóa abstract :
+abstract class abstractClass{
+    abstract public function abstractMethod();
+    //.. các phương thức - thuộc tính khác
+}
+
+Không thể khởi tạo trực tiếp lớp trừu tượng mà chỉ khởi tạo lớp con được kế thừa từ lớp trừu tượng
+
+27. Lớp (class) và đối tượng trong PHP
+class Product
+{
+    // Khai báo các thuộc tính property của lớp
+    // (dữ liệu data, trường dữ liệu field)
+    public $name = 'Product Name';
+
+    // Khai báo các phương thức (hàm) trong lớp
+    public function showTitle()
+    {
+        echo 'Name:' + $this->name;
+    }
+}
+
+Ký hiệu -> :
+$n = $obj->name;            // truy cập thuộc tính, đọc giá trị
+     $obj->name = 'Xyz';    // truy cập thuộc tính, gán giá trị vào thuộc tính
+     $obj->myMethod();      // Truy cập, gọi phương thức của đối tượng
+
+Biến $this :
+    $this->name
+
+Hằng số const :
+    public  const MGS = "Information:";
+Lấy ra hằng số :  $this::MGS
+
+$user = new User(); 
+$user->setInfo('XUANTHULAB', 20);           // Gọi phương thức
+echo $user::MGS;                            // Truy cập hằng số MGS
+echo User::MGS;                             // Truy cập hằng số MGS
+
+28. Hàm tạo và hàm hủy của lớp trong PHP
+- Tên của hàm tạo luôn là __construct 
+Trong PHP không cho phép khai báo nhiều phương thức khởi tạo!
+class Book {
+
+    protected $price;
+    protected $title;
+
+    // Khai báo lớp có hàm khởi tạo với hai tham số
+    function __construct( $title, $price ){
+        $this->price = $price;
+        $this->title = $title;
+    }
+
+    public function getTitle()
+    {
+        return $this->title;
+    }
+}
+
+$vatly = new Book("VAT LY LOP 10",20000);
+$toan =  new Book("TOAN 10",30000);
+
+echo $vatly->getTitle();        // VAT LY LOP 10
+echo $toan->getTitle();         // TOAN 10
+
+- PHP8: Ko cần khai báo thuộc tính mà khai báo trong hàm tạo cũng dc
+class Book {
+    // $title, $price sẽ trở thành thuộc tính của lớp
+    function __construct(protected $title, protected $price) {
+
+    }
+
+    public function getTitle()
+    {
+        return $this->title;
+    }
+}
+
+
+- Khởi tạo đối tượng với hàm factory 
+Do PHP không cho phép có nhiều phương thức khởi tạo nên dùng hàm factory 
+class Book {
+
+    function __construct(protected $title, protected $price ) { }
+
+    // $data mảng có hai phần tử title và price
+    public static function bookFromArrayData(array $data) : static
+    {
+        $book = new static($data['title'], $data['price']);
+        return $book;
+    }
+
+    public function getTitle()
+    {
+        return $this->title;
+    }
+}
+
+// Tạo đối tượng bằng cách thông thường
+$book1 = new Book('Abc', 123);
+
+// Tạo đối tượng bằng hàm factory
+$book2 = Book::bookFromArrayData(['title' => 'Xyz', 321]);
+
+- Hàm hủy __destruct trong lớp PHP : thi hành khi đối tượng bị hủy (đối tượng không còn biến nào tham chiều), hoặc bạn có thể gọi phương thức unset() để hủy (giải phóng) một đối tượng, 
+public function __destruct()
+    {
+        echo 'Đối tượng bị hủy';
+    }
+
+29. Tính kế thừa trong lập trình OOP với PHP
+class ChildClass extends ParentClass {
+    ...
+}
+Gọi phương thức ở lớp cha : 
+Dùng từ khóa parent và toán tử phân giải phạm vi :: (Scope Resolution Operator)
+class Cat extends Pet {
+    protected $age;
+    function __construct(string $pet_name, int $age)
+    {
+        // Gọi phương thức khởi tạo của lớp cha
+        parent::__construct($pet_name);
+        $this->age = $age;
+    }
+
+    function play() {
+        // Gọi phương thức play của lớp cha
+        parent::play();
+        echo "$this->name is climbing and it's $this->age year old.";
+    }
+}
+
+- Lớp và phương thức final
+Lớp khai báo có dùng từ khóa final để khai báo (gọi là lớp final) thì lớp đó không thể dùng làm lớp cha cho bất kỳ lớp nào. 
+Lớp final là lớp không thể kế thừa, chỉ dùng để tạo ra đối tượng.
+final class A
+{
+
+}
+
+class B extends A {
+
+}
+
+// Lỗi không chạy được, thông báo lỗi:
+// Fatal error: Class B may not inherit from final class (A) in /
+
+Tương tự, một phương thức trong lớp cha khai báo là final thì nó không thể bị nạp chồng (định nghĩa lại bởi lớp con).
+
+30. Lớp và phương thức abstract trong PHP
+31. Giao diện interface trong lập trình PHP
+interface ILogger
+{
+    public function log($message);
+}
+
+class FileLogger implements ILogger{
+	public function log($message){
+		echo sprintf("Log %s to the file\n",$message);
+	}
+}
+
+Một interface cũng có thể kế thừa interface khác bằng từ khóa extends. Hoặc một vừa kế thừa lớp khác và triển khai các giao diện :
+interface InterfaceA {
+    function method1();
+}
+
+// InterfaceB kế thừa interfaceA
+// B có các phương thức quy định trong A
+interface InterfaceB extends InterfaceA {
+    function method2();
+}
+
+class ClassA {
+    function method3()
+    {
+
+    }
+}
+
+// Lớp ClassB kế thừa ClassA và triển khai giao diện InterfaceB
+class ClassB extends ClassA implements InterfaceB {
+
+    function method1()
+    {
+        // Implement method2() method.
+    }
+    function method2()
+    {
+        // Implement method2() method.
+    }
+}
+
+32. Biến tĩnh phương thức tĩnh trong lớp PHP
+Phương thức / thuộc tính tĩnh (static) truy cập trực tiếp qua tên lớp với  ::, không cần phải tạo ra đối tượng lớp, trong phương thức tính không thể dùng $this
+class ClassA
+{
+    // $a_property khai báo là tính (static)
+    public static $a_property;
+}
+
+// Truy cập thuộc tính tĩnh không cần phải tạo đối tượng lớp
+ClassA::$a = 5;
+echo ClassA::$a;
+
+- Từ khóa self và parent trong PHP
+Bên trong một phương thức của lớp, bạn có thể sử dụng từ khóa self thay cho tên lớp để truy cập thành viên tĩnh của lớp self::property, và để truy cập tới thành viên tĩnh lớp cha thì dùng parent::property
+class ParentClass
+{
+    public static $property_a;
+}
+
+class ChildClass extends ParentClass
+{
+    public static $property_b;
+
+    function testFunction()
+    {
+        // Truy cập thành viên tĩnh
+        self::$property_b = 3;
+        parent::$property_a = 5;
+    }
+}
+
+class TestStaticMethod {
+    // test là phương thức tĩnh
+    public static function test($pr1, $pr2) {
+        echo $pr1.'-'.$pr2;
+    }
+}
+
+// Truy cập phương thức tĩnh (không cần đối tạo đối tượng lớp)
+TestStaticMethod::test('Học', 'PHP');
+
+33. Các hằng số ma thuật trong PHP
+Trong PHP có 9 hằng số rất đặc biệt, được gọi là hăng số ma thuật, đây là những hằng số với tên định nghĩa sẵn trong PHP, giá trị của hằng số đó bị thay đổi tùy thuộc vào nơi mà bạn sử dụng nó.
+__LINE__, __FILE__, __DIR__, __FUNCTION__, __CLASS__ ,__TRAIT__, __METHOD__ ,__NAMESPACE__, ClassName::class
+
+- Hằng số __LINE__ trong php :
+Hằng số này trả về số nguyên chính là số dòng mà __LINE__ được sử dụng (là dòng thứ bao nhiêu trong file code).
+// đây là dòng 100 của file code
+echo __LINE__;      // in ra 101
+$line = __LINE__;   // $line có giá trị 103
+
+- Hằng số __FILE__
+Hằng số __FILE__ có giá trị là tên file (đường dẫn đầy đủ) của script mà __FILE__ được sử dụng (file sử dụng __FILE__)
+Ví dụ: Đây là trích đoạn code trong file /var/website/web1/index.php
+echo __FILE__;
+// in ra: /var/website/web1/index.php
+
+- Hằng số __DIR__
+Hằng số __DIR__ là chuỗi tên thư mục mà script đang chạy.
+Ví dụ: trong file /var/website/web1/index.php
+echo __DIR__;
+// in ra: /var/website/web1
+
+- Hằng số __FUNCTION__
+Hằng số này trong hàm, có giá trị là chuỗi tên hàm đó.
+function myFunction()
+{
+    return __FUNCTION__;
+}
+echo myFunction();
+// In ra: myFunction
+
+- Hằng số __CLASS__
+Hằng số __CLASS__ có giá trị bằng chuỗi tên lớp nơi đang sử dụng __CLASS__.
+class TestClass
+{
+    public function Hi()
+    {
+        return __CLASS__;
+    }
+}
+
+$obj = new TestClass();
+echo $obj->Hi();
+// In ra: TestClass
+
+- Hằng số __TRAIT__
+Hằng số __TRAIT__ bên trong trait, có giá trị bằng tên trait hiện tại đang sử dụng. (giống __CLASS__)
+
+- Hằng số __METHOD__
+Hằng số __METHOD__ chứa tên phương thức đang thực thi.
+class TestClass
+{
+    public function Hi()
+    {
+        return __METHOD__;
+    }
+}
+$obj = new TestClass();
+echo $obj->Hi();
+// In ra: Hi
+
+- Hằng số __NAMESPACE__
+Hằng số __NAMESPACE__ chứa tên namespace có code đang thực thi.
+
+- Hằng số ClassName::class
+Bạn có một lớp có tên ClassName, thì ClassName::class là một chuỗi có giá trị bằng tên lớp (ClassName).
+Ví dụ, bạn có lớp MyClass được định nghĩa thuộc namespace \Abc\Xyz
+use \Abc\Xyz
+echo MyClass::class;
+// in ra: \Abc\Xyz\MyClass
+
+34. Error và Exception trong lập trình PHP
++ E_ERROR : Lỗi nghiêm trọng (Fatal Error) script bị kết thúc, lỗi xảy ra như tràn bộ nhớ ... Ví dụ, bạn gọi một hàm không tồn tại.
++ E_WARNING : Cảnh báo khi thực thi. Lỗi này không dẫn đến script bị dừng. Ví dụ include("file ko ton tai")
+
+Môi trường phát triển, thiết lập nhận tất cả các thông báo lỗi, kể các các lỗi không nghiêm trọng, các cảnh báo E_NOTICE.
+Còn trong môi trường Product tắt đi việc nhận các lỗi này để đảm bảo an toàn, dấu vết về lỗi không hiện thị cho khách truy cập mà sẽ lưu ở log.
+
+- Có 2 cách Thiết lập trong file cấu hình của PHP là php.ini hoặc trực tiếp trong code của bạn với hàm error_reporting()
+- Thiết lập các thông báo lỗi error_reporting() trong PHP : 
+
++ Thiết lập nhận thông báo lỗi trong php.ini :
+; Bật hiện thị các thông báo lỗi
+display_errors = On
+; Thiết lập các lỗi hiện thị - tất cả các lỗi
+; Môi trường phát triển nên thiết lập
+error_reporting = E_ALL
+; Thiết lập chỉ hiện thị lỗi E_DEPRECATED và E_STRICT
+; Môi trường Product nên thiết lập
+error_reporting = E_ALL & ~E_DEPRECATED & ~E_STRICT
+Chú ý: cần khởi động lại Web Server, PHP FPM sau khi sửa đổi php.ini
+
++ Thiết lập nhận thông báo lỗi với hàm error_reporting()
+// Hiện thị tất cả các lỗi
+error_reporting(E_ALL);
+// Hoặc E_DEPRECATED và E_STRICT
+error_reporting(E_ALL & ~E_DEPRECATED & ~E_STRICT)
+Cũng có thể dùng hàm ini_set để thiết lập chỉ thị error_reporting
+// Hiện thị E_DEPRECATED và E_STRICT
+ini_set('error_reporting', E_ALL & ~E_DEPRECATED & ~E_STRICT);
+
++ Hàm trigger_error trong PHP, phát sinh thông báo lỗi : Phát đi các lỗi do bạn tự định nghĩa sử dụng tới phương thức trigger_error
+trigger_error($mgs, $error_level);
+$mgs dòng thông báo
+$error_level cấp độ lỗi, là một trong các giá trị E_USER_ERROR, E_USER_WARNING, E_USER_NOTICE. Không thiết lập mặc định là E_USER_NOTICE
+
+<?php
+    $a = rand(0, 2);
+    //...
+    if ($a == 0)
+    {
+        // Phát sinh lỗi
+        trigger_error('Không thể chia cho 0', E_USER_WARNING);
+    }
+?>
+
++ Hàm set_error_handler trong PHP, đăng ký error_handler : Hàm đó được thực thi khi có lỗi xảy ra
+Các lỗi sau nó không bắt được E_ERROR, E_PARSE, E_CORE_ERROR, E_CORE_WARNING, E_COMPILE_ERROR, E_COMPILE_WARNING. 
+Vậy sẽ bắt được các lỗi như: E_USER_*, E_WARNING, E_NOTICE ...
+
+Đầu tiên bạn cần xây dựng một hàm callback có các tham số:
+// $errno : mã lỗi nhận được
+// $errstr: chuỗi thông báo lỗi
+// $errfile: file xảy ra lỗi
+// $errline: dòng có lỗi
+// $errcontext: mảng các biến tại thời điểm lỗi
+handler($errno, $errstr, $errfile = null, $errline = null, $errcontext = null) : bool
+ 
+Ví dụ :
+function my_error_handler($errno, $errstr, $errfile = null, $errline = null, $errcontext = null)
+{
+    echo "Có lỗi xảy ra, mã lỗi: $errno ";
+    echo "Thông báo: $$errstr ";
+    // Trả về true handler mặc định không được thi hành
+    return true;
+}
+
+Để thiết lập nó là error handler, gọi hàm sau để đăng ký:
+set_error_handler('my_error_handler');
+
+Bạn cũng có thể dùng hàm vô danh làm handler, ví dụ:
+set_error_handler(function ($errno, $errstr) {
+    echo "Có lỗi xảy ra, mã lỗi: $errno ";
+    echo "Thông báo: $$errstr ";
+    return true;
+});
+Sau khi đăng ký hàm error-handler mới, nếu muốn quay về trạng thái trước thì dùng hàm restore_error_handler(), 
+hoặc set_error_handler(null) để hủy không sử dụng error handler.
+
+- Ngoại lệ Exception trong PHP : (throw và lớp Exception trong PHP)
+Ngoại lệ là đối tượng chứa thông tin lỗi được phát sinh, triển khai từ giao diện Throwable của PHP. Như các lớp Exception, Error, AssertionError, TypeError, ErrorException ...
+// Hàm chi lấy dữ của hai số nguyên
+// Nếu tham số $a, $b không phải số nguyên thì phát sinh ngoại lệ
+function chia_lay_du($a, $b)
+{
+    if (!is_int($a) || !is_int($b))
+    {
+        $exception = new Exception("Không phải là số nguyên");
+        // gặp throw khối code sẽ kết thúc - hàm chi_lay_du kết thúc tại đây
+        throw $exception;
+    }
+
+    return ($a % $b);
+}
+Giờ bạn sử dụng hàm, trường hợp này sẽ phát sinh ngoại lệ:
+
+$a = 20;
+$b = 3.5;
+
+// Điểm có thể phát sinh ngoại lệ
+$kq = chia_lay_du($a, $b);
+
+echo "$a chia $b dữ $kq";
+
+- Sử dụng try ... catch ... để bắt ngoại lệ :
+try {
+    //...
+} catch (Exception $e) {
+    //...
+} catch (Exception $e) {
+    //...
+}
+ finally {
+    //...Code luôn thi hành
+}
+
+- Tạo ngoại lệ riêng - tùy biến trong PHP :
+class MyExption extends Exception {
+    //Định nghĩa các hàm riêng của bạn, ví dụ:
+    public function errorMessage() {
+        $errorMsg = 'Lỗi tại dòng '.
+        $this->getLine().' trong file '.$this->getFile();
+        return $errorMsg;
+    }
+}
+try {
+    //...
+}
+catch (MyExption $e) {
+    //...
+}
+catch (Exception $e) {
+    //...
+}
+
+- Thiết lập exception_handler bắt ngoại lệ bị bỏ qua bởi try ... catch...
+function exception_handler(Throwable $exception) {
+  echo "Bắt được lỗi: " , $exception->getMessage(), "\n"; 
+} 
+set_exception_handler('exception_handler'); 
+// Thử phát sinh ngọa lệ
+throw new Exception('Một ngoại lệ phát sinh');
+
+Bạn có thể dùng một framework chuyên về error handler và exception handler whoops
+
+34. Phương thức __invoke __call __callStatic trong PHP
+- Phương thức (hàm) __invoke(...$param) là một phương thức ma thuật, nếu trong lớp có khai báo phương thức này thì có thể dùng đối tượng lớp như là một phương thức.
+class Welcome {
+    private $name = null;
+
+    public function setName($name): void
+    {
+        $this->name = $name;
+    }
+
+    public function SayHi()
+    {
+        echo "Xin chào, $this->name";
+    }
+
+    // Hàm này sẽ thi hành, nếu sử dụng
+    // đối tượng như hàm: $obj('name');
+    public function __invoke($name)
+    {
+         $this->setName($name);
+         $this->SayHi();
+    }
+}
+
+$obj = new Welcome();
+$obj('XuanThuLab');
+// Xuất ra
+// Xin chào, XuanThuLab
+
+- Phương thức __call() và __callStatic() trong PHP :
+Phương thức __call cũng là một phương thức ma thuật, khi lớp khai báo có phương thức này, nếu bạn truy cập một phương thức không tồn tại, phương thức __call sẽ tự động được gọi.
+Phương thức __callStatic cũng có ý nghĩa như vậy, chỉ khác là nó thi hành khi bạn truy cập một phương thức tĩnh (toán tử truy cập ::) không tồn tại
+
+// Gọi hàm ko tồn tại trong lớp -> tự gọi __call
+$obj->HamXyx(1,2,'XUAN','THU', ['LAB',1,2]);
+// Gọi hàm static ko tồn tại trong lớp -> tự gọi __callStatic
+PersonInfo::AbcDefXyz(1,2,3);
+
+35. Xử lý thời gian năm tháng ngày giờ trong PHP
+Hàm time() trong PHP, Hàm getdate() trong PHP, Hàm date() trong PHP, Lớp DateTime trong PHP
+Array
+(
+    [seconds] => 40         // Giây
+    [minutes] => 58         // Phút
+    [hours]   => 21         // Giờ
+    [mday]    => 17         // Ngày
+    [wday]    => 2          // Ngày tuần (0 = CN, 1 = Thứ 2, 2 = Thứ 3 ...)
+    [mon]     => 6          // Tháng
+    [year]    => 2003       // Năm
+    [yday]    => 167        // Ngày của năm
+    [weekday] => Tuesday    // Thứ
+    [month]   => June       // Tháng
+    [0]       => 1055901520 // Timestamp
+) */
+
+
+- Hàm time() :
+Trả về là một số nguyên bằng số giây tính từ thời điểm bắt đầu của kỷ nguyên Unix (lúc 0 giờ, 0 phút, 0 giây ngày 1 tháng 1 năm 1970 GMT 0)
+$time = time();
+$datetimeinfo = getdate($time);
+
+- Hàm getdate() :
+getdate([$timestamp]);
+// Hàm getdate thiếu tham số, nó sẽ lấy timestamp hiện tại làm tham số chuyển đổi
+$today = getdate();
+
+- Hàm date() 
+Hàm date() trả về một chuỗi biểu diễn ngày tháng. Chuỗi này chuyển đổi từ thời gian Unix truyền vào. 
+date($format,$timestamp) 
+$timestamp là thời gian timestamp cần chuyển đổi, nếu thiếu tham số này hàm date() lấy thời gian hiện tại của hệ thống để chuyển đổi.
+$format: là chuỗi chứa định dạng, nó xác định chuỗi kết quả trả về sẽ có dữ liệu gì, tham khảo các ký hiệu sau để viết chuỗi $format:
+VD :
+$format = "G:i:s  d/m/y";
+echo date($format, time());
+// Out: 6:58:58 06/09/22
+
+// Trong chuỗi định dạng,
+// để xuất ra ký tự mà đã dùng làm định dạng thì thêm dấu \
+echo date('\i\t \i\s \t\h\e jS \d\a\y.');
+// it is the 6th day.
+
+- Lớp DateTime trong PHP :
+$datetime = new DateTime();
+$datetime = new DateTime('now');
+Phương thức :
+getTimestamp() trả về timestamp
+getTimezone() trả về DateTimeZone, thông tin về múi giờ
+format($format_string) trả về chuỗi chứa ngày tháng ... theo định dạng viết trong $format_string
+
+- getTimestamp() trả về timestamp
+getTimezone() trả về DateTimeZone, thông tin về múi giờ
+format($format_string) trả về chuỗi chứa ngày tháng ... theo định dạng viết trong $format_string
+
+36. Lưu trữ và phục hồi biến đối tượng với hàm serialize và unserialize trong PHP 
+Hàm serialize() được dùng để phát sinh một chuỗi (các byte) của một giá trị (đối tượng), với mục đích có thể lưu trữ chuỗi này dễ dàng (trong database, trong file, hoạc trao đổi giữa các thành phần). 
+Từ chuỗi này có thể phục hồi nó về giá trị bạn đầu (kể cả phục hồi đối tượng) bằng hàm unserialize().
+
+- Hàm serialize() :
+// $value có thể có kiểu bất kỳ trừ resource và một số đối tượng
+$string_bytes =  serialize($value);
+
+// Phục hồi lại $value từ chuỗi byte lưu trữ
+$value = unserialize($string_bytes);
+
+37. PHP kết nối và làm việc với MS SQL Server
+Cài đặt các Extension SQLSRV, PDO_SQLSRV cho PHP để cung cấp khả năng PHP thực hiện được kết nối, truy vấn CSDL MS SQL Server
+- Giới thiệu Microsoft Drivers for PHP for SQL Server :
+Microsoft Drivers for PHP for SQL Server là một phần mở rộng (extension) cho PHP nó cho phép ứng dụng PHP có thể truy vấn đến CSDL MS SQL Server. 
+Extension này cung cấp giao diện truy cập hướng thủ tục với driver SQLSRV và hướng đối tượng với driver PDO_SQLSRV.
+Để sử dụng được Microsoft Drivers for PHP for SQL Server trước tiên bạn cần cài đặt Microsoft ODBC Driver trên máy (server) chạy PHP. Sau đó mới cài đặt các driver cho PHP.
+
